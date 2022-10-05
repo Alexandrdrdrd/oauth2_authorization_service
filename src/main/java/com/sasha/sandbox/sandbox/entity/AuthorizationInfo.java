@@ -1,5 +1,9 @@
 package com.sasha.sandbox.sandbox.entity;
 
+import java.util.Date;
+import java.util.TreeMap;
+
+
 public class AuthorizationInfo {
     private String access_token;
     private String token_type ;
@@ -8,6 +12,15 @@ public class AuthorizationInfo {
     private String scope;
     private int iat;
     private String jti;
+
+    private TreeMap<Date,String> oldAccessTokens;
+
+    public void addAccessTokenToMapOfOldTokens(Date data, String token){
+        if (oldAccessTokens == null){
+            oldAccessTokens = new TreeMap<Date,String>();
+        }
+        oldAccessTokens.put(data, token);
+    }
 
     public AuthorizationInfo() {
     }
@@ -20,6 +33,10 @@ public class AuthorizationInfo {
         this.scope = scope;
         this.iat = iat;
         this.jti = jti;
+    }
+
+    public TreeMap<Date, String> getOldAccessTokens() {
+        return oldAccessTokens;
     }
 
     public String getAccess_token() {

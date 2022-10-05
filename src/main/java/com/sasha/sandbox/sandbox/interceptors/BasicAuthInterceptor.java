@@ -4,17 +4,23 @@ import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component("BasicAuthInterceptor")
+@PropertySource("classpath:application.properties")
 public class BasicAuthInterceptor implements Interceptor {
+
     private String credentials;
-    public BasicAuthInterceptor(@Value("${person.username}") String user, @Value("${person.password}")String password) {
-        this.credentials = Credentials.basic(user, password);
+
+    @Autowired
+    public BasicAuthInterceptor(@Value("${client_id}") String client_id, @Value("${secret}") String secret) {
+        this.credentials = Credentials.basic(client_id, secret);
     }
 
     @Override
